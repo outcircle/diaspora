@@ -48,6 +48,7 @@ module PeopleHelper
       #{person_image_tag(person, opts[:size])}
       </a>".html_safe
     end
+
   end
 
   def person_href(person, opts={})

@@ -63,6 +63,7 @@ zh-TW:
     my_activity: "我的活動"
     my_aspects: "我的面向"
     my_stream: "流水帳"
+    my_blog: "部落格"
     people:
       not_found: "找不到任何人..."
     photo_uploader:
