@@ -9,8 +9,9 @@ class ArticlesController < ApplicationController
 		#binding.pry
     #@person = Person.find_from_guid_or_username({:id => params[:person_id]})
     @person = Person.find(params[:person_id])
-    @stream = Stream::Person.new(current_user, @person, :max_time => max_time)
-
+    
+    @articles = @person.articles.paginate(:page => params[:page], :per_page => 10)
+    
     unless params[:format] == "json" # hovercard
       if current_user
         @block = current_user.blocks.where(:person_id => @person.id).first
@@ -28,16 +29,11 @@ class ArticlesController < ApplicationController
       format.all do
         respond_with @person, :locals => {:post_type => :all}
       end
-
-      format.json { render :json => @stream.stream_posts.map { |p| LastThreeCommentsDecorator.new(PostPresenter.new(p, current_user)) }}
     end
 	end
 
 	def show
 		@article = current_user.articles.find(params[:id])
-		#respond_to do |format|
-    #  format.json{ render json: @article  }
-    #end
 	end
 
 	def new

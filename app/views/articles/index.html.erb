@@ -7,13 +7,11 @@
 
 <div class="span-18 last">
 	<div class="blog_container">
-		<% @person.articles.each do |article| %>
-			<%= link_to(article.title, person_blog_article_path(@person.id,article.id) )%>
-			<br/>
+		<% @articles.each do |article| %>
+			<h4><%= link_to(article.title, person_blog_article_path(@person.id,article.id) )%></h4>
 			<%= truncate(article.content,length: 40) %>
-			
 			<hr>
 		<% end %>
 	</div>
-	<!--<div class="stream" id="main_stream" />-->
+	<%= will_paginate @articles %>
 </div>
