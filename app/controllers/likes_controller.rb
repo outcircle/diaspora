@@ -18,6 +18,7 @@ class LikesController < ApplicationController
         format.html { render :nothing => true, :status => 201 }
         format.mobile { redirect_to post_path(@like.post_id) }
         format.json { render :json => @like.as_api_response(:backbone), :status => 201 }
+            binding.pry
       end
     else
       render :nothing => true, :status => 422

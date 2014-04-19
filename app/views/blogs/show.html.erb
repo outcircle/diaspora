@@ -1,0 +1,16 @@
+
+
+<div class="span-6">
+	<%= render 'people/profile_sidebar' , person: @person , contact: @contact %>
+	<%= link_to("新增文章" , new_person_blog_article_path(@person))%>
+</div>
+
+<div class="span-18 last">
+	<div clas="blog_container">
+		<ol>
+		<% @person.posts.each do |post| %>
+			<li><%= truncate(post.text,length: 20) %></li>
+		<% end %>
+		</ol>
+	</div>
+</div>

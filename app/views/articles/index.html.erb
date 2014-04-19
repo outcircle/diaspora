@@ -1,0 +1,19 @@
+
+
+<div class="span-6">
+	<%= render 'people/profile_sidebar' , person: @person , contact: @contact %>
+	<%= link_to("新增文章" , new_person_blog_article_path(@person) ,:class => "button creation")%>
+</div>
+
+<div class="span-18 last">
+	<div class="blog_container">
+		<% @person.articles.each do |article| %>
+			<%= link_to(article.title, person_blog_article_path(@person.id,article.id) )%>
+			<br/>
+			<%= truncate(article.content,length: 40) %>
+			
+			<hr>
+		<% end %>
+	</div>
+	<!--<div class="stream" id="main_stream" />-->
+</div>

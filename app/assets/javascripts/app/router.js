@@ -22,7 +22,8 @@ app.Router = Backbone.Router.extend({
     "people/:id/photos": "photos",
 
     "people/:id": "stream",
-    "u/:name": "stream"
+    "u/:name": "stream",
+    "people/:id/blog/articles": "stream"
   },
 
   help: function() {

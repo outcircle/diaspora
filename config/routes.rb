@@ -148,7 +148,9 @@ Diaspora::Application.routes.draw do
 
   get 'people/refresh_search' => "people#refresh_search"
   resources :people, :except => [:edit, :update] do
-    resources :blog
+    resource :blog do
+      resources :articles
+    end
     resources :status_messages
     resources :photos
     get :contacts

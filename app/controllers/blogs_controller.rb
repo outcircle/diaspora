@@ -1,14 +1,16 @@
-class BlogController < ApplicationController
+class BlogsController < ApplicationController
 
 	before_filter :authenticate_user!, :except => :show
 
 	respond_to :html
 	respond_to :json, :only => [:index, :show]
 
-	def index
-		@person = Person.find_from_guid_or_username({:id => params[:person_id]})
-
-		unless params[:format] == "json" # hovercard
+	def show
+	  binding.pry
+    #@person = Person.find_from_guid_or_username({:id => params[:person_id]})
+    @person = Person.find(params[:person_id])
+    @stream = Stream::Person.new(current_user, @person, :max_time => max_time)
+    unless params[:format] == "json" # hovercard
       if current_user
         @block = current_user.blocks.where(:person_id => @person.id).first
         @contact = current_user.contact_for(@person)
@@ -28,12 +30,6 @@ class BlogController < ApplicationController
 
       format.json { render :json => @stream.stream_posts.map { |p| LastThreeCommentsDecorator.new(PostPresenter.new(p, current_user)) }}
     end
-
-
-	end
-
-	def show
-		
 	end
 
 end

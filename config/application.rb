@@ -94,7 +94,6 @@ module Diaspora
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
-
     # Configure generators values. Many other options are available, be sure to check the documentation.
     config.generators do |g|
       g.template_engine :haml

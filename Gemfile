@@ -97,6 +97,7 @@ gem 'typhoeus',           '0.6.7'
 
 # Views
 
+gem 'simple_form',              '2.1.1'
 gem 'gon',                     '4.1.1'
 gem 'haml',                    '4.0.5'
 gem 'mobile-fu',               '1.2.2'
