@@ -20,7 +20,7 @@ class LikesController < ApplicationController
       relayable.initialize_signatures
       @like = relayable
       @like.save
-    else
+    else #diaspora原來的處理  牽連太多 先不管
       @like = current_user.like!(target) if target rescue ActiveRecord::RecordInvalid
     end
     
@@ -38,7 +38,12 @@ class LikesController < ApplicationController
   def destroy
     @like = Like.find_by_id_and_author_id!(params[:id], current_user.person.id)
     binding.pry
-    current_user.retract(@like)
+    if params[:article_id]  #網誌的按贊處理 
+      @like.destroy
+    else #diaspora原來的處理  牽連太多 先不管
+      current_user.retract(@like)
+    end
+    
     respond_to do |format|
       format.json { render :nothing => true, :status => 204 }
     end
@@ -70,10 +75,6 @@ class LikesController < ApplicationController
        raise(ActiveRecord::RecordNotFound.new) unless current_user.find_visible_shareable_by_id(Post, comment.commentable_id)
       end  
     end
-  end
-
-  def like_params
-    
   end
 
 end

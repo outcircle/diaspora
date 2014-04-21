@@ -57,6 +57,7 @@ module Diaspora
 
     # @return [Array<Person>]
     def subscribers(user)
+      binding.pry
       if user.owns?(self.parent)
         self.parent.subscribers(user)
       elsif user.owns?(self)

@@ -4,4 +4,8 @@ class Article < ActiveRecord::Base
   belongs_to :author, :class_name => 'Person'
 
   include Diaspora::Likeable
+
+  def subscribers(user)
+    
+  end
 end
