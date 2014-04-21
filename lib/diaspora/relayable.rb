@@ -29,6 +29,7 @@ module Diaspora
 
     def author_is_not_ignored
       if self.new_record? && self.parent.present?
+        #binding.pry
         post_author = self.parent.author
         relayable_author = self.author
 
@@ -99,6 +100,7 @@ module Diaspora
 
     def initialize_signatures
       #sign relayable as model creator
+      #binding.pry
       self.author_signature = self.sign_with_key(author.owner.encryption_key)
 
       if !self.parent.blank? && self.author.owns?(self.parent)

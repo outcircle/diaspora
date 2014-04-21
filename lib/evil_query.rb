@@ -107,7 +107,14 @@ module EvilQuery
 
     def post!
       #small optimization - is this optimal order??
+      #binding.pry
       querent_is_contact.first || querent_is_author.first || public_post.first
+    end
+
+    def article!
+      #small optimization - is this optimal order??
+      #binding.pry
+      querent_is_author.first
     end
 
     protected

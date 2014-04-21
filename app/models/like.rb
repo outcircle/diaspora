@@ -9,6 +9,7 @@ class Like < Federated::Relayable
     end
 
     def relayable_options
+      #binding.pry
       {:target => @target, :positive => true}
     end
   end

@@ -10,8 +10,17 @@
 		<% @articles.each do |article| %>
 			<h4><%= link_to(article.title, person_blog_article_path(@person.id,article.id) )%></h4>
 			<%= truncate(article.content,length: 40) %>
+			<br>
+			<% if Like.where(:target_type=>"Article" , :target_id => article.id , :author_id => current_user.id ) != [] %>
+				<%= link_to("收回贊", article_like_path(article.id,Like.where(:target_type=>"Article" , :target_id => article.id , :author_id => current_user.id ) ) , :method=> :delete , :remote => true , "data-type" =>"json" )%>
+			<% else %>
+				<%= link_to("贊", article_likes_path(article.id) , :method=> :post , :remote => true , "data-type" =>"json" )%>
+			<% end %>
+			<%= link_to("意見", person_blog_article_path(@person.id,article.id) )%>
 			<hr>
 		<% end %>
 	</div>
 	<%= will_paginate @articles %>
 </div>
+
+

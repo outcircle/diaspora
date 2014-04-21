@@ -16,6 +16,7 @@ class RelayableRetraction < SignedRetraction
   # @param sender [User]
   # @param target [Object]
   def self.build(sender, target)
+    binding.pry
     retraction = super
     retraction.parent_author_signature = retraction.sign_with_key(sender.encryption_key) if defined?(target.parent) && sender.person == target.parent.author
     retraction

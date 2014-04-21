@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140413124953) do
+ActiveRecord::Schema.define(:version => 20140420145712) do
 
   create_table "account_deletions", :force => true do |t|
     t.string  "diaspora_handle"
@@ -22,8 +22,10 @@ ActiveRecord::Schema.define(:version => 20140413124953) do
     t.integer  "author_id"
     t.string   "title"
     t.text     "content"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "guid"
+    t.integer  "likes_count"
   end
 
   create_table "aspect_memberships", :force => true do |t|
