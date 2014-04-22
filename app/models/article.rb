@@ -3,6 +3,7 @@ class Article < ActiveRecord::Base
   belongs_to :user
   belongs_to :author, :class_name => 'Person'
 
+  
   include Diaspora::Likeable
 
   def subscribers(user)

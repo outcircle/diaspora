@@ -37,7 +37,7 @@ class LikesController < ApplicationController
 
   def destroy
     @like = Like.find_by_id_and_author_id!(params[:id], current_user.person.id)
-    binding.pry
+    #binding.pry
     if params[:article_id]  #網誌的按贊處理 
       @like.destroy
     else #diaspora原來的處理  牽連太多 先不管

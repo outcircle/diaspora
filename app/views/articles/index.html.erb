@@ -1,5 +1,4 @@
 
-
 <div class="span-6">
 	<%= render 'people/profile_sidebar' , person: @person , contact: @contact %>
 	<%= link_to("新增文章" , new_person_blog_article_path(@person) ,:class => "button creation")%>
@@ -11,16 +10,40 @@
 			<h4><%= link_to(article.title, person_blog_article_path(@person.id,article.id) )%></h4>
 			<%= truncate(article.content,length: 40) %>
 			<br>
-			<% if Like.where(:target_type=>"Article" , :target_id => article.id , :author_id => current_user.id ) != [] %>
-				<%= link_to("收回贊", article_like_path(article.id,Like.where(:target_type=>"Article" , :target_id => article.id , :author_id => current_user.id).first.id ) , :method=> :delete , :remote => true , "data-type" =>"json" )%>
-			<% else %>
-				<%= link_to("贊", article_likes_path(article.id) , :method=> :post , :remote => true , "data-type" =>"json" )%>
-			<% end %>
+			<%= render 'like' , article: article %>
 			<%= link_to("意見", person_blog_article_path(@person.id,article.id) )%>
+			<br>
+			有<span id="likeNum_<%= article.id.to_s %>" ><%= article.likes_count %></span>人按贊
 			<hr>
 		<% end %>
 	</div>
 	<%= will_paginate @articles %>
 </div>
 
+<script type="text/javascript" >
+	$(function(){
+		$("a[data-remote]").bind("ajax:success" , function(event,data){
+			
+		  var likeNum_id = this.id.replace("like_","likeNum_"); // like_id , likeNum_id
+		  var article_id = this.id.replace("like_",""); // like_id , id
+			var likeCount = parseInt(document.getElementById(likeNum_id).innerHTML);
+			var likeContent;
+			var _href = "/articles/"+article_id+"/likes"; // init href
 
+			if(!data){
+				likeContent="贊";				
+				likeCount = likeCount-1;
+				$(this).attr("href",_href);
+				$(this).data("method","post");
+			}else{
+				likeContent="收回贊";
+				likeCount = likeCount+1;
+				$(this).attr("href",_href+"/"+data.id);
+				$(this).data("method","delete");
+			}
+				document.getElementById(this.id).innerHTML=likeContent;
+				document.getElementById(likeNum_id).innerHTML=likeCount;
+
+		});
+	});
+</script>

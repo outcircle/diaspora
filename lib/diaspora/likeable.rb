@@ -13,7 +13,7 @@ module Diaspora
 
     # @return [Integer]
     def update_likes_counter
-      binding.pry
+      #binding.pry
       self.class.where(:id => self.id).
         update_all(:likes_count => self.likes.count)
     end
