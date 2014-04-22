@@ -11,13 +11,24 @@ class LikesController < ApplicationController
              :json
 
   def create
-    @like = current_user.like!(target) if target rescue ActiveRecord::RecordInvalid
-
+    if params[:article_id]  #網誌的按贊處理
+      relayable = Like.new(:positive => 1 ,
+                         :target_id => params[:article_id] ,
+                         :author_id => current_user.id ,
+                         :target_type => "Article")
+      relayable.set_guid
+      relayable.initialize_signatures
+      @like = relayable
+      @like.save
+    else #diaspora原來的處理  牽連太多 先不管
+      @like = current_user.like!(target) if target rescue ActiveRecord::RecordInvalid
+    end
+    
     if @like
       respond_to do |format|
         format.html { render :nothing => true, :status => 201 }
         format.mobile { redirect_to post_path(@like.post_id) }
-        format.json { render :json => @like.as_api_response(:backbone), :status => 201 }
+        format.json { render :json => @like.as_api_response(:backbone), :status => 201 }        
       end
     else
       render :nothing => true, :status => 422
@@ -26,8 +37,13 @@ class LikesController < ApplicationController
 
   def destroy
     @like = Like.find_by_id_and_author_id!(params[:id], current_user.person.id)
-
-    current_user.retract(@like)
+    #binding.pry
+    if params[:article_id]  #網誌的按贊處理 
+      @like.destroy
+    else #diaspora原來的處理  牽連太多 先不管
+      current_user.retract(@like)
+    end
+    
     respond_to do |format|
       format.json { render :nothing => true, :status => 204 }
     end
@@ -35,6 +51,7 @@ class LikesController < ApplicationController
 
   #I can go when the old stream goes.
   def index
+    binding.pry
     @likes = target.likes.includes(:author => :profile)
     @people = @likes.map(&:author)
 
@@ -47,12 +64,17 @@ class LikesController < ApplicationController
   private
 
   def target
-    @target ||= if params[:post_id]
-      current_user.find_visible_shareable_by_id(Post, params[:post_id]) || raise(ActiveRecord::RecordNotFound.new)
+    if params[:article_id] 
+      @target = params[:article_id]
+      current_user.find_article_visible_shareable_by_id(Article, params[:article_id]) || raise(ActiveRecord::RecordNotFound.new)
+    elsif params[:post_id]
+      @target ||= params[:post_id]
+      current_user.find_visible_shareable_by_id(Post, params[:post_id]) || raise(ActiveRecord::RecordNotFound.new)     
     else
       Comment.find(params[:comment_id]).tap do |comment|
        raise(ActiveRecord::RecordNotFound.new) unless current_user.find_visible_shareable_by_id(Post, comment.commentable_id)
-      end
+      end  
     end
   end
+
 end

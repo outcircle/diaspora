@@ -1,0 +1,9 @@
+<% @like = Like.where(:target_type=>"Article" , :target_id => article.id , :author_id => current_user.id ) %>
+
+<% if @like != [] %>
+		<%= link_to("收回贊", article_like_path(article.id,@like.first.id ) , :method=> :delete , :remote => true , "data-type" =>"json" ,:id => "like_"+article.id.to_s  )%>
+<% else %>
+		<%= link_to("贊", article_likes_path(article.id) , :method=> :post , :remote => true , "data-type" =>"json" ,:id => "like_"+article.id.to_s )%>
+<% end %>
+
+

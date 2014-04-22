@@ -23,6 +23,7 @@ class PostsController < ApplicationController
   end
 
   def show
+    binding.pry
     mark_corresponding_notifications_read if user_signed_in?
 
     respond_to do |format|

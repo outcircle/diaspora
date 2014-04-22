@@ -46,7 +46,7 @@ class StatusMessagesController < ApplicationController
     params[:status_message][:aspect_ids] = [*params[:aspect_ids]]
     normalize_public_flag!
     services = [*params[:services]].compact
-
+    #binding.pry
     @status_message = current_user.build_post(:status_message, params[:status_message])
     @status_message.build_location(:address => params[:location_address], :coordinates => params[:location_coords]) if params[:location_address].present?
     if params[:poll_question].present?
@@ -55,7 +55,7 @@ class StatusMessagesController < ApplicationController
         @status_message.poll.poll_answers.build(:answer => poll_answer)
       end
     end
-
+    
 
     @status_message.attach_photos_by_ids(params[:photos])
 
@@ -76,7 +76,7 @@ class StatusMessagesController < ApplicationController
       if coming_from_profile_page? && !own_profile_page? # if this is a post coming from a profile page
         flash[:notice] = successful_mention_message
       end
-
+      #binding.pry
       respond_to do |format|
         format.html { redirect_to :back }
         format.mobile { redirect_to stream_path }
