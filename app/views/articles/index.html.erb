@@ -1,7 +1,9 @@
 
 <div class="span-6">
 	<%= render 'people/profile_sidebar' , person: @person , contact: @contact %>
-	<%= link_to("新增文章" , new_person_blog_article_path(@person) ,:class => "button creation")%>
+	<% if current_user.id == @person.id  %> 
+		<%= link_to("新增文章" , new_person_blog_article_path(@person) ,:class => "button creation")%>
+	<% end %>
 </div>
 
 <div class="span-18 last">
