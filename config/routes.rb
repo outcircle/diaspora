@@ -38,6 +38,10 @@ Diaspora::Application.routes.draw do
     resources :comments, :only => [:new, :create, :destroy, :index]
   end
 
+  resources :articles do
+    resources :likes , :only => [:create, :destroy, :index ]
+  end
+
 
 
   get 'p/:id' => 'posts#show', :as => 'short_post'
@@ -60,6 +64,7 @@ Diaspora::Application.routes.draw do
   get "liked" => "streams#liked", :as => "liked_stream"
   get "commented" => "streams#commented", :as => "commented_stream"
   get "aspects" => "streams#aspects", :as => "aspects_stream"
+  get "blog" => "streams#blog", :as => "blog_stream"
 
   resources :aspects do
     put :toggle_contact_visibility
@@ -147,6 +152,9 @@ Diaspora::Application.routes.draw do
 
   get 'people/refresh_search' => "people#refresh_search"
   resources :people, :except => [:edit, :update] do
+    resource :blog do
+      resources :articles
+    end
     resources :status_messages
     resources :photos
     get :contacts

@@ -103,7 +103,7 @@ class Post < ActiveRecord::Base
       includes_for_a_stream
 
     scope = scope.excluding_hidden_content(user) if user.present?
-
+    #binding.pry
     scope
   end
 
@@ -125,6 +125,7 @@ class Post < ActiveRecord::Base
     new_post.public = params[:public] if params[:public]
     new_post.pending = params[:pending] if params[:pending]
     new_post.diaspora_handle = new_post.author.diaspora_handle
+    #binding.pry
     new_post
   end
 

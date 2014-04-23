@@ -97,6 +97,7 @@ gem 'typhoeus',           '0.6.7'
 
 # Views
 
+gem 'simple_form',              '2.1.1'
 gem 'gon',                     '4.1.1'
 gem 'haml',                    '4.0.5'
 gem 'mobile-fu',               '1.2.2'
@@ -182,6 +183,16 @@ group :development do
 
   gem 'guard-spork', '1.5.1'
   gem 'spork',       '1.0.0rc4'
+
+  gem 'pry-rails'
+  gem 'pry'
+  gem 'pry-stack_explorer'
+  gem 'pry-debugger'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
+  gem 'meta_request'
+  gem 'annotate', ">=2.6.0"
 end
 
 group :test do
@@ -217,3 +228,5 @@ group :development, :test do
   gem 'jasmine', '1.3.2'
   gem 'sinon-rails',	    '1.7.3'
 end
+
+
