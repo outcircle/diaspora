@@ -40,6 +40,7 @@ Diaspora::Application.routes.draw do
 
   resources :articles do
     resources :likes , :only => [:create, :destroy, :index ]
+    resources :comments, :only => [:new, :create, :destroy, :index]
   end
 
 

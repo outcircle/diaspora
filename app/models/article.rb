@@ -5,6 +5,7 @@ class Article < ActiveRecord::Base
 
   
   include Diaspora::Likeable
+  include Diaspora::Commentable
 
   def subscribers(user)
     

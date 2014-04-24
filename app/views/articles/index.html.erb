@@ -13,9 +13,20 @@
 			<%= truncate(article.content,length: 40) %>
 			<br>
 			<%= render 'like' , article: article %>
-			<%= link_to("意見", person_blog_article_path(@person.id,article.id) )%>
+			<%= link_to "意見", '#', :onclick => "focusCommentTextarea(#{article.id})" %>
 			<br>
 			有<span id="likeNum_<%= article.id.to_s %>" ><%= article.likes_count %></span>人按贊
+			<br>
+			 <div class="comment new_comment_form_wrapper_<%= article.id %> hidden">
+			    <div class="bd">
+			      <form accept-charset="UTF-8" action="/articles/<%= article.id %>/comments" class="new_comment_<%= article.id %>" method="post" remote="true">
+			        <textarea class="comment_article_box_<%= article.id %>" name="text" rows="2" placeholder="意見" ></textarea>
+			        <div class="submit_button">
+			          <input class="button creation" id="comment_submit_<%= article.id %>" name="commit" type="submit" value="意見" />
+			        </div>
+			      </form>
+			    </div>
+			  </div>
 			<hr>
 		<% end %>
 	</div>
@@ -23,6 +34,14 @@
 </div>
 
 <script type="text/javascript" >
+
+	function focusCommentTextarea(id){
+		this.$(".new_comment_"+id).append($('<input type="hidden" name="authenticity_token" value="'+$("meta[name='csrf-token']").attr("content")+'"/>'));
+    this.$(".new_comment_form_wrapper_"+id).removeClass("hidden");
+    this.$(".new_comment_"+id).addClass("open");
+    this.$(".comment_article_box_"+id).focus();
+	}
+
 	$(function(){
 		$("a[data-remote]").bind("ajax:success" , function(event,data){
 			
