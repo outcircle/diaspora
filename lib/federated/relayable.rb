@@ -32,6 +32,7 @@ module Federated
     end
 
     def parent
+      #binding.pry
       self.target
     end
 

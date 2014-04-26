@@ -15,9 +15,10 @@ class CommentsController < ApplicationController
   end
 
   def create
+    @binding.pry
     post = current_user.find_visible_shareable_by_id(Post, params[:post_id])
     @comment = current_user.comment!(post, params[:text]) if post
-
+    
     if @comment
       respond_to do |format|
         format.json{ render :json => CommentPresenter.new(@comment), :status => 201 }
@@ -51,6 +52,7 @@ class CommentsController < ApplicationController
   end
 
   def index
+    binding.pry
     find_post
     raise(ActiveRecord::RecordNotFound.new) unless @post
 
@@ -64,6 +66,7 @@ class CommentsController < ApplicationController
   private
 
   def find_post
+    binding.pry
     if user_signed_in?
       @post = current_user.find_visible_shareable_by_id(Post, params[:post_id])
     else

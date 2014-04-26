@@ -5,11 +5,13 @@ module User::SocialActions
   end
 
   def participate!(target, opts={})
+    binding.pry
     Participation::Generator.new(self, target).create!(opts)
   end
 
   def like!(target, opts={})
     find_or_create_participation!(target)
+    binding.pry
     Like::Generator.new(self, target).create!(opts)
   end
 
@@ -49,6 +51,7 @@ module User::SocialActions
   end
 
   def find_or_create_participation!(target)
+    binding.pry
     participations.where(:target_id => target).first || participate!(target)
   end
 end

@@ -69,6 +69,9 @@ class User < ActiveRecord::Base
 
   has_many :notifications, :foreign_key => :recipient_id
 
+  has_many :posts
+  has_many :articles, :foreign_key => :author_id, :dependent => :destroy # This person's own posts
+
   before_save :guard_unconfirmed_email,
               :save_person!
 
@@ -224,6 +227,7 @@ class User < ActiveRecord::Base
 
     model_class = class_name.to_s.camelize.constantize
     model_class.diaspora_initialize(opts)
+    #binding.pry
   end
 
   def dispatch_post(post, opts={})

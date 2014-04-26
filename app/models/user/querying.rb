@@ -7,7 +7,15 @@
 module User::Querying
   def find_visible_shareable_by_id(klass, id, opts={} )
     key = (opts.delete(:key) || :id)
-    ::EvilQuery::VisibleShareableById.new(self, klass, key, id, opts).post!
+        binding.pry
+    ::EvilQuery::VisibleShareableById.new(self, klass, key, id, opts).post!  
+  end
+
+  def find_article_visible_shareable_by_id(klass, id, opts={} )
+    
+    key = (opts.delete(:key) || :id)
+    binding.pry
+    ::EvilQuery::VisibleShareableById.new(self, klass, key, id, opts).article!  
   end
 
   def visible_shareables(klass, opts={})

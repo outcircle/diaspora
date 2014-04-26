@@ -5,6 +5,7 @@
 module Diaspora
   module Commentable
     def self.included(model)
+      binding.pry
       model.instance_eval do
         has_many :comments, :as => :commentable, :dependent => :destroy
       end
@@ -12,6 +13,7 @@ module Diaspora
 
     # @return [Array<Comment>]
   def last_three_comments
+    binding.pry
     return [] if self.comments_count == 0
     # DO NOT USE .last(3) HERE.  IT WILL FETCH ALL COMMENTS AND RETURN THE LAST THREE
     # INSTEAD OF DOING THE FOLLOWING, AS EXPECTED (THX AR):
@@ -20,6 +22,7 @@ module Diaspora
 
     # @return [Integer]
     def update_comments_counter
+      binding.pry
       self.class.where(:id => self.id).
         update_all(:comments_count => self.comments.count)
     end

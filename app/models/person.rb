@@ -56,6 +56,8 @@ class Person < ActiveRecord::Base
 
   has_many :mentions, :dependent => :destroy
 
+  has_many :articles, :foreign_key => :author_id, :dependent => :destroy # This person's own posts
+
   before_validation :clean_url
 
   validates :url, :presence => true
